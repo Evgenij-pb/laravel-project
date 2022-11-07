@@ -1,6 +1,7 @@
 <?php
-//use \Illuminate\Support\Facades\Request;
+
 use App\Models\Task;
+use \Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -19,20 +20,20 @@ Route::get('/', function () {
 
 Route::get('/task',function (){
     $tasks = Task::all();
-    //dd($tasks);
     return view('tasks.index',[
         'tasks'=> $tasks,
     ]);
 })->name('task.index');         // name задаем имя маршрута
 
-Route::get('/task/create',function (){
 
+Route::get('/task/create',function (){
     return view('tasks.create');
 })->name('task.create');
 
-Route::post('/task',function(\Illuminate\Http\Request $request){
+
+Route::post('/task',function(Request $request){
     $validator = Validator::make($request->all(), [
-        'name' => 'required|max:255',
+        'name' => 'required|max:25',
     ]);
 
     if ($validator->fails()) {
@@ -45,3 +46,64 @@ Route::post('/task',function(\Illuminate\Http\Request $request){
     $task->save();
     return redirect(route('task.index'));
 })->name('task.store');
+
+
+Route::delete ('/task/{task}', function (Task $task){
+    $task ->delete();
+    return redirect(route('task.index'));
+})->name('tasks.destroy');
+
+//--------------------------------------------------------------------------------------
+
+/*Route::post ('/task/{id}/edit', function ($id){
+    $task = Task::findOrFail($id);
+    return view('tasks.edit',[
+        'task'=> $task,
+    ]);
+})->name('task.edit');
+
+
+Route::put('task/{id}}', function (Request $request,$id){
+    $validator = Validator::make($request->all(), [
+        'name' => 'required|max:25',
+    ]);
+
+    if ($validator->fails()) {
+        return redirect(route('task.edit'))   //redirect(route('task.edit', $id))
+            ->withErrors($validator)
+            ->withInput();
+    }
+
+    $task = Task::findOrFail($id);
+    $task ->name=$request -> name;
+    $task->save();
+
+    return redirect(route('task.index'));
+})->name('task.update');
+*/
+
+Route::match(['get', 'post'],'/task/{task}/edit', function (Task $task){
+    return view('tasks.edit',[
+        'task'=> $task,
+    ]);
+})->name('task.edit');
+
+
+Route::put('task/{task}}', function (Request $request,Task $task){
+
+    $validator = Validator::make($request->all(), [
+        'name' => 'required|max:25',
+    ]);
+
+    if ($validator->fails()) {
+        return redirect(route('task.edit', $task->id))
+            ->withErrors($validator)
+            ->withInput();
+    }
+
+    $task ->name=$request -> name;
+    $task->save();
+
+    return redirect(route('task.index'));
+})->name('task.update');
+

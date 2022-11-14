@@ -42,7 +42,7 @@
                         </form>
                         <form action="{{route('task.edit', $task ->id)}}" method="post">
                             {{csrf_field()}}
-
+                            {{method_field('GET')}}
                             <button><i class="fa fa-pencil" aria-hidden="true"></i></button>
                         </form>
 

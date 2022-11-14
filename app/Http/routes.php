@@ -82,14 +82,15 @@ Route::put('task/{id}}', function (Request $request,$id){
 })->name('task.update');
 */
 
-Route::match(['get', 'post'],'/task/{task}/edit', function (Task $task){
-    return view('tasks.edit',[
+//Route::match(['get', 'post'],'/task/{task}/edit', function (Task $task)
+Route::get('/task/{task}/edit', function (Task $task){
+     return view('tasks.edit',[
         'task'=> $task,
     ]);
 })->name('task.edit');
 
 
-Route::put('task/{task}}', function (Request $request,Task $task){
+Route::put('task/{task}', function (Request $request,Task $task){
 
     $validator = Validator::make($request->all(), [
         'name' => 'required|max:25',

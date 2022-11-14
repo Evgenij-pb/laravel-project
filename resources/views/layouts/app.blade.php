@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Laravel Quickstart - Basic</title>
+    <title>Laravel Task list basic project</title>
 
     <!-- CSS и JavaScript -->
     <!-- Latest compiled and minified CSS -->
@@ -22,7 +22,6 @@
         <ul>
             <li><a href="{{route('task.index')}}">Tasks</a></li>
         </ul>
-        <!-- Содержимое Navbar -->
     </nav>
 </div>
 
